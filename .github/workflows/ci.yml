@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  server:
+    name: Server CI
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install server deps
+        run: |
+          cd server
+          npm install
+
+      - name: Lint server
+        run: |
+          cd server
+          npm run lint
+
+      - name: Format check server
+        run: |
+          cd server
+          npm run format
+
+  client:
+    name: Client CI
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install client deps
+        run: |
+          cd client
+          npm install
+
+      - name: Lint client
+        run: |
+          cd client
+          npm run lint
+
+      - name: Format check client
+        run: |
+          cd client
+          npm run format
